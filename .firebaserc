@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "user-control-b6a5f": {
+      "hosting": {
+        "login": [
+          "user-control-b6a5f"
+        ]
+      }
+    }
+  }
+}
