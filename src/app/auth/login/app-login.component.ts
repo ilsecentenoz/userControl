@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from './../services/auth.service';
 import { FormGroup, FormControl} from '@angular/forms';
 import { Router } from '@angular/router'
@@ -11,7 +11,7 @@ import { Router } from '@angular/router'
     providers: [AuthService],
 })
 
-export class AppLoginComponent implements OnInit{
+export class AppLoginComponent {
     loginForm = new FormGroup({
         email: new FormControl(''),
         password: new FormControl('')
@@ -21,8 +21,6 @@ export class AppLoginComponent implements OnInit{
         console.log('este es el login cargado');
     }
 
-    ngOnInit() :void {}
-    
     async onLogin(){
         const {email, password} = this.loginForm.value;
         try{

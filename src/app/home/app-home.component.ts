@@ -1,21 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import 'firebase/firestore';
+import { Component, OnInit} from '@angular/core';
+import {AuthService } from '../auth/services/auth.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './app-home.component.html',
-  styleUrls: ['./app-home.component.scss']
+  template: `
+    <ul>
+      <li *ngFor="let usuario of usuarios | async">
+        {{ usuario.name }}
+      </li>
+    </ul>
+  `,
+  styleUrls: ['./app-home.component.scss'],
+  providers: [AuthService]
 })
-export class AppHomeComponent implements OnInit {
+export class AppHomeComponent implements OnInit{
+  usuarios: any;
+  constructor(private authSvc: AuthService){ 
+    this.authSvc.returnUsuarios().subscribe(usuario =>{
+      this.usuarios= usuario;
+      console.log(this.usuarios);
+    })
+   }
 
-  items: Observable<any[]>;
-  constructor(firestore: AngularFirestore){
-    this.items = firestore.collection('items').valueChanges();
-  }
-
-  ngOnInit(): void {
-  }
+   ngOnInit() {}
 
 }

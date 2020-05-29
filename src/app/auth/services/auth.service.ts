@@ -1,39 +1,48 @@
-import { User } from 'firebase';
-import {first} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
-@Injectable()
+export interface Usuario { name: string; }
+
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthService {
+  private usuariosCollection: AngularFirestoreCollection<Usuario>;
+  usuarios: Observable<Usuario[]>;
+  
+  constructor(public afAuth: AngularFireAuth, private readonly db: AngularFirestore) {
+    this.usuariosCollection = db.collection<Usuario>('usuarios');
+    this.usuarios = this.usuariosCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Usuario;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    );
+  }
 
-  public user: User;
-
-  constructor(public afAuth: AngularFireAuth) { }
-
-  async login(email:string, password:string){
-    try{
-      const result = await this.afAuth.signInWithEmailAndPassword(
-        email, 
-        password
-      );
-      return result;
-    }
-    catch(error){
-      console.log('Este usuario no tiene acceso');
+  async login(email: string, password: string): Promise<firebase.User> {
+    try {
+      const { user } = await this.afAuth.signInWithEmailAndPassword(email, password);
+      return user;
+    } catch (error) {
+      console.log('Error->', error);
     }
   }
-  async logout(){
-    try{
+
+  async logout(): Promise<void> {
+    try {
       await this.afAuth.signOut();
-      //redireccionar al login
     }
     catch(error){
       console.log('No se puede realizar esta acción intentelo más tarde');
     }
   }
-  getUser(){
-    return this.afAuth.authState.pipe(first()).toPromise();
+
+  returnUsuarios(){
+    return this.usuarios;
   }
-  
 }
