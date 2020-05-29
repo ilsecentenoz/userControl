@@ -37,3 +37,4 @@ export class AppLoginComponent implements OnInit{
         this.authSvc.login(email, password);
     }
 }
+

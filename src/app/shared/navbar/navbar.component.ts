@@ -15,19 +15,13 @@ export class AppNavbarComponent implements OnInit {
   public user$: Observable<any> = this.authSvc.afAuth.user;
   constructor(private authSvc: AuthService, private router: Router) {}
 
-  async ngOnInit(){
-    
-    console.log('navbar');
-    // this.user = await this.authSvc.getUser();
-    // if(this.user){
-    //   this.logged = true;
-    // }
-  }
+  async ngOnInit() { }
 
   async logout(){
     try{
       await this.authSvc.logout();
       this.router.navigate(['/login']);
+
     }
     catch(error){
       console.log('erro logout');

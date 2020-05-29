@@ -35,4 +35,5 @@ export class AuthService {
   getUser(){
     return this.afAuth.authState.pipe(first()).toPromise();
   }
+  
 }

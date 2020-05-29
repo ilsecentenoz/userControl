@@ -11,7 +11,8 @@ export const environment = {
     projectId: "user-control-b6a5f",
     storageBucket: "user-control-b6a5f.appspot.com",
     messagingSenderId: "191408409539",
-    appId: "1:191408409539:web:472a230ff24eafd0ce4b76"
+    appId: "1:191408409539:web:f5ed3e4d0f98b394ce4b76",
+    measurementId: "G-WPJCVPB3Q4"
   }
 };
 
