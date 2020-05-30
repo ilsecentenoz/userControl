@@ -1,1 +1,1 @@
-Proyecto implementado en Angular con Firebase Authentication/Database
+Proyecto implementado en Angular 9 con Firebase Authentication/Database
